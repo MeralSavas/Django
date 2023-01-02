@@ -7,10 +7,12 @@ from rest_framework.validators import UniqueValidator
 # settings.AUTH_USER_MODEL
 
 class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True, validators=[
-                                   UniqueValidator(queryset=User.objects.all())])
+    email = serializers.EmailField(required=True, validators=
+    [UniqueValidator(queryset=User.objects.all())])
+    # emailin uniq ve standartlara uygun olmasini sagliyoruz.
     password = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True, required=True)
+    password2 = serializers.CharField(write_only=True, required=True) 
+    # password u comfirm etmek icin. 
     first_name = serializers.CharField(required=True)
 
     class Meta:
@@ -24,7 +26,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password',
             'password2'
         )
-
+    #! passwordleri eslestirmek icin
     def validate(self, data):
         if data['password'] != data['password2']:
             raise serializers.ValidationError(
