@@ -2,7 +2,11 @@ from .serializers import RegisterSerializer
 from django.contrib.auth.models import User
 from rest_framework.generics import CreateAPIView
 from rest_framework.authtoken.models import Token
-# Create your views here.
+
+#! for logout
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 
 
 class RegisterView(CreateAPIView):
@@ -19,8 +23,7 @@ class RegisterView(CreateAPIView):
         return response # HTTP response --> <Response status_code=201, "text/html: charset+utf-8"
 
     # ----------- User Logout Function ------------------
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+
 
 # Kullanıcı Çıkış (Token Sil)
 @api_view(['POST'])
