@@ -209,3 +209,8 @@ REST_FRAMEWORK = {
         
     ]
 }
+
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'users.serializers.CustomTokenSerializer',
+    
+}
