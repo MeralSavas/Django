@@ -33,7 +33,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         'email',
         'password',
         'password2']
-        
+
+    #* ModelSerializer kullanınca create metodu yazmaya gerek yok aslında fakat, User model içinde olmayan bir field 
+    #* (password2) kullandığımız için creat metodunu override etmek gerekli;
+
     #1. passwordle 2. si birbiryle ayni mi onun icin yazildi
     def validate(self, data):
         if data["password"] != data["password2"]:
@@ -51,5 +54,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-#* ModelSerializer kullanınca create metodu yazmaya gerek yok aslında fakat, User model içinde olmayan bir field 
-#* (password2) kullandığımız için creat metodunu override etmek gerekli;
