@@ -38,11 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #my app
+   
     'rest_framework',
     'drf_yasg',
     'rest_framework.authtoken',
     'dj_rest_auth',
+    # 'debug_toolbar',
+    
+    #my app
     'users',
 
 ]
