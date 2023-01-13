@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   
+    
+    # Third party app
     'rest_framework',
     'drf_yasg',
     'rest_framework.authtoken',
@@ -212,3 +213,5 @@ REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'users.serializers.CustomTokenSerializer',
     
 }
+
+# AUTH_USER_MODEL = 'users.Myuser'
