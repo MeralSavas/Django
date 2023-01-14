@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .models import Profile
-# from .permissions import IsOwnerOrStaff
+from .permissions import IsOwnerOrStaff
 from rest_framework.permissions import IsAuthenticated
 
 class RegisterAPI(CreateAPIView):
@@ -26,4 +26,4 @@ class RegisterAPI(CreateAPIView):
 class ProfileUpdateView(RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    # permission_classes = [IsOwnerOrStaff, IsAuthenticated]
+    permission_classes = [IsOwnerOrStaff, IsAuthenticated]
