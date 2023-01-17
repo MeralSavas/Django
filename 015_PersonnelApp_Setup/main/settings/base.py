@@ -46,10 +46,9 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     # 'debug_toolbar',
     
-    
     #my app
     'users',
-    'personal',
+    'personnel',
 
 ]
 
