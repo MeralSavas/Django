@@ -3,10 +3,10 @@ from .models import Product, Review
 from django.utils import timezone
 
 
-# class ReviewInline(admin.TabularInline):
-#     model = Review
-#     extra = 2
-#     classes = ('collapse',)
+class ReviewInline(admin.TabularInline):
+    model = Review
+    extra = 2
+    classes = ('collapse',)
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("name","create_date", "is_in_stock", "update_date", "added_days_ago",)
@@ -19,7 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 25
     date_hierarchy = "update_date"
     # fields = (('name', 'slug'), 'description', "is_in_stock")
-    # inlines = (ReviewInline,)
+    inlines = (ReviewInline,)
 
 
     fieldsets = (
