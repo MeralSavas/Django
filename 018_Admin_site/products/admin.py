@@ -4,12 +4,16 @@ from django.utils import timezone
 
 
 class ReviewInline(admin.TabularInline):
+    # StackedInline farklı bir görünüm aynı iş
+    '''Tabular Inline View for '''
     model = Review
     extra = 2
     classes = ('collapse',)
+    # min_num = 3
+    # max_num = 20
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name","create_date", "is_in_stock", "update_date", "added_days_ago",)
+    list_display = ("name","create_date", "is_in_stock", "update_date", "added_days_ago", "how_many_reviews")
     list_editable = ( "is_in_stock",)
     # list_display_links = ("create_date",)
     list_filter = ("is_in_stock", "create_date")
@@ -48,11 +52,9 @@ class ProductAdmin(admin.ModelAdmin):
         fark = timezone.now() - product.create_date
         return fark.days
 
-
-# class ReviewAdmin(admin.ModelAdmin):
-#     list_display = ('__str__', 'created_date', 'is_released')
-#     list_per_page = 50
-#     raw_id_fields = ('product',) 
+    def how_many_reviews(self, obj):
+        count = obj.reviews.count()
+        return count
     
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'created_date', 'is_released')
