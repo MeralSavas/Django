@@ -1,8 +1,12 @@
 from django.contrib import admin
-from .models import Product
+from .models import Product, Review
 from django.utils import timezone
 
 
+# class ReviewInline(admin.TabularInline):
+#     model = Review
+#     extra = 2
+#     classes = ('collapse',)
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("name","create_date", "is_in_stock", "update_date", "added_days_ago",)
@@ -16,6 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
     date_hierarchy = "update_date"
     # fields = (('name', 'slug'), 'description', "is_in_stock")
     # inlines = (ReviewInline,)
+
 
     fieldsets = (
         (None, {
@@ -42,11 +47,21 @@ class ProductAdmin(admin.ModelAdmin):
     def added_days_ago(self, product):
         fark = timezone.now() - product.create_date
         return fark.days
+
+
+# class ReviewAdmin(admin.ModelAdmin):
+#     list_display = ('__str__', 'created_date', 'is_released')
+#     list_per_page = 50
+#     raw_id_fields = ('product',) 
     
-	
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'created_date', 'is_released')
+    list_per_page = 50
+    raw_id_fields = ('product',) 	
 
 
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Review, ReviewAdmin )
 
 admin.site.site_title = "Clarusway Title"
 admin.site.site_header = "Clarusway Admin Portal"  
