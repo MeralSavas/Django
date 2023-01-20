@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # my app
     'users',
+    'flight',
 
 
     # third party
