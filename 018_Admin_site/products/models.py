@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Product(models.Model):
@@ -14,4 +15,9 @@ class Product(models.Model):
         verbose_name_plural = "Products"
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.description}"
+
+
+    # def added_days_ago(self):
+    #     fark = timezone.now() - self.create_date
+    #     return fark.days
