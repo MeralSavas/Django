@@ -33,3 +33,5 @@ class PersonnelSerializer(serializers.ModelSerializer):
     def get_days_since_joined(self, obj):
         return (now() - obj.start_date).days
     
+
+

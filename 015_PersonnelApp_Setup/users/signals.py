@@ -10,6 +10,8 @@ def create_Token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
+
+
 @receiver(post_save, sender=User)
 def create_Profile(sender, instance=None, created=False, **kwargs):
     if created:
