@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Product, Review, Category
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 
 
 class ReviewInline(admin.TabularInline):
@@ -26,6 +27,8 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = (ReviewInline,)
 
 
+    readonly_fields = ("bring_image",)
+
     fieldsets = (
         (None, {
             "fields": (
@@ -35,7 +38,8 @@ class ProductAdmin(admin.ModelAdmin):
         }),
         ('My section', {
             "classes" : ("collapse", ),
-            "fields" : ("description","categories"),
+            "fields" : ("description","categories", "product_img", "bring_image"),
+            
             'description' : "You can use this section for optionals settings"
         })
     )
@@ -57,6 +61,11 @@ class ProductAdmin(admin.ModelAdmin):
     def how_many_reviews(self, obj):
         count = obj.reviews.count()
         return count
+
+    def bring_image(self, obj):
+        if obj.product_img:
+            return mark_safe(f"<img src={obj.product_img.url} width=400 height=400></img>")
+        return mark_safe(f"<h3>{obj.name} has not image </h3>")
     
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'created_date', 'is_released')
