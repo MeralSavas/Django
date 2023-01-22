@@ -14,7 +14,7 @@ class ReviewInline(admin.TabularInline):
     # max_num = 20
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name","create_date", "is_in_stock", "update_date", "added_days_ago", "how_many_reviews")
+    list_display = ("name","create_date", "is_in_stock", "update_date", "added_days_ago", "how_many_reviews", "bring_img_to_list")
     list_editable = ( "is_in_stock",)
     # list_display_links = ("create_date",)
     list_filter = ("is_in_stock", "create_date")
@@ -66,6 +66,13 @@ class ProductAdmin(admin.ModelAdmin):
         if obj.product_img:
             return mark_safe(f"<img src={obj.product_img.url} width=400 height=400></img>")
         return mark_safe(f"<h3>{obj.name} has not image </h3>")
+
+    def bring_img_to_list(self, obj):
+        if obj.product_img:
+            return mark_safe(f"<img src={obj.product_img.url} width=50 height=50></img>")
+        return mark_safe("******")
+
+    bring_img_to_list.short_description = "product_image"
     
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'created_date', 'is_released')
