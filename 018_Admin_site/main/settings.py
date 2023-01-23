@@ -41,9 +41,12 @@ INSTALLED_APPS = [
     
     #my_apps
     'products',
+    
 
     # thirdparty app
     'rest_framework',
+    'django_admin_listfilter_dropdown',
+    'rangefilter',
 ]
 
 MIDDLEWARE = [

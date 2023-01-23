@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import Product, Review, Category
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter, DropdownFilter
+from rangefilter.filters import DateRangeFilter, DateTimeRangeFilter
 
 
 class ReviewInline(admin.TabularInline):
@@ -17,7 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ("name","create_date", "is_in_stock", "update_date", "added_days_ago", "how_many_reviews", "bring_img_to_list")
     list_editable = ( "is_in_stock",)
     # list_display_links = ("create_date",)
-    list_filter = ("is_in_stock", "create_date")
+    list_filter = ("is_in_stock", ("create_date", DateTimeRangeFilter))
     # ordering = ("-update_date",)
     search_fields = ("name",)
     prepopulated_fields = {'slug' : ('name',)}
@@ -77,7 +79,11 @@ class ProductAdmin(admin.ModelAdmin):
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'created_date', 'is_released')
     list_per_page = 50
-    raw_id_fields = ('product',) 	
+    raw_id_fields = ('product',) 
+    # list_filter = ("product",)
+    list_filter = (
+        ('product', RelatedDropdownFilter),
+    )	
 
 
 admin.site.register(Product, ProductAdmin)
