@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_admin_listfilter_dropdown',
     'rangefilter',
+    'import_export',
 ]
 
 MIDDLEWARE = [

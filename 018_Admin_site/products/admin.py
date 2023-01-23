@@ -4,6 +4,8 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter, DropdownFilter
 from rangefilter.filters import DateRangeFilter, DateTimeRangeFilter
+from .resources import ReviewResource
+from import_export.admin import ImportExportModelAdmin
 
 
 class ReviewInline(admin.TabularInline):
@@ -76,7 +78,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     bring_img_to_list.short_description = "product_image"
     
-class ReviewAdmin(admin.ModelAdmin):
+class ReviewAdmin(ImportExportModelAdmin):
     list_display = ('__str__', 'created_date', 'is_released')
     list_per_page = 50
     raw_id_fields = ('product',) 
@@ -84,6 +86,7 @@ class ReviewAdmin(admin.ModelAdmin):
     list_filter = (
         ('product', RelatedDropdownFilter),
     )	
+    resource_class = ReviewResource
 
 
 admin.site.register(Product, ProductAdmin)
