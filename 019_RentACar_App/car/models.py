@@ -1,17 +1,22 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 class Car(models.Model):
     GEAR = (
         ('a', 'automatic'),
-        ('m', 'manuel')
+        ('m', 'manuel'),
     )
     plate_number = models.CharField(max_length=15, unique=True)
     brand = models.CharField(max_length=15)
     model = models.CharField(max_length=20)
     year = models.SmallIntegerField()
     gear = models.CharField(max_length=1, choices=GEAR)
-    rent_per_day = models.SmallIntegerField()
+    rent_per_day = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        validators=[MinValueValidator(1)]
+    )
     availability = models.BooleanField(default=True)
 
     def __str__(self):
