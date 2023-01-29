@@ -1,6 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
+
+
 from .models import Car, Reservation
-from .serializers import CarSerializer
+from .serializers import CarSerializer, ReservationSerializer
 from .permissions import IsStaffOrReadOnly
 
 from django.db.models import Q
@@ -40,6 +44,16 @@ class CarView(ModelViewSet):
             # )
 
         return queryset
+
+class ReservationView(ListCreateAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return super().get_queryset()
+        return super().get_queryset().filter(customer=self.request.user)
 
 
 
