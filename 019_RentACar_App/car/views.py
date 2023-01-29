@@ -1,13 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 
 from .models import Car, Reservation
 from .serializers import CarSerializer, ReservationSerializer
 from .permissions import IsStaffOrReadOnly
 
-from django.db.models import Q
+from django.db.models import Q, Exists
 
 
 
@@ -55,6 +56,26 @@ class ReservationView(ListCreateAPIView):
             return super().get_queryset()
         return super().get_queryset().filter(customer=self.request.user)
 
+class ReservationDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+    #lookup_field = 'id'
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        end = serializer.validated_data.get('end_date')
+        car = serializer.validated_data.get('car')
+
+
+        if Reservation.objects.filter(car=car).exists():
+            for res in Reservation.objects.filter(car=car):
+                if res.start_date < end < res.start_date:return Response({'message': 'Car is not available...'})
+
+        return super().update(request, *args, **kwargs)
 
 
 
