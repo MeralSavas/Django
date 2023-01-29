@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Car, Reservation
+from .models import Car
 
 
 class CarSerializer(serializers.ModelSerializer):
@@ -15,3 +15,5 @@ class CarSerializer(serializers.ModelSerializer):
             'rent_per_day',
             'availability'
         )
+
+
