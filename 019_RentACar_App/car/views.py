@@ -9,6 +9,7 @@ from .serializers import CarSerializer, ReservationSerializer
 from .permissions import IsStaffOrReadOnly
 
 from django.db.models import Q, Exists
+from django.utils import timezone
 
 
 
@@ -69,9 +70,10 @@ class ReservationDetailView(RetrieveUpdateDestroyAPIView):
         serializer.is_valid(raise_exception=True)
         end = serializer.validated_data.get('end_date')
         car = serializer.validated_data.get('car')
+        today = timezone.now().date()
 
 
-        if Reservation.objects.filter(car=car).exists():
+        if Reservation.objects.filter(car=car, end_date__gte=today).exists():
             for res in Reservation.objects.filter(car=car):
                 if res.start_date < end < res.start_date:return Response({'message': 'Car is not available...'})
 
