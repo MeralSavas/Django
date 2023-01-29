@@ -8,7 +8,7 @@ from .models import Car, Reservation
 from .serializers import CarSerializer, ReservationSerializer
 from .permissions import IsStaffOrReadOnly
 
-from django.db.models import Q, Exists
+from django.db.models import Q, Exists, OuterRef
 from django.utils import timezone
 
 
@@ -32,18 +32,18 @@ class CarView(ModelViewSet):
             #     start_date__lt=end, end_date__gt=start
             # ).values_list('car_id', flat=True)  # [1, 2]
 
-            not_available = Reservation.objects.filter(
-                Q(start_date__lt=end) & Q(end_date__gt=start)
-            ).values_list('car_id', flat=True)  # [1, 2]
+            # not_available = Reservation.objects.filter(
+            #     Q(start_date__lt=end) & Q(end_date__gt=start)
+            # ).values_list('car_id', flat=True)  # [1, 2]
 
-             
 
-            # queryset = queryset.annotate(
-            #     is_available=~Exists(Reservation.objects.filter(
-            #         Q(car=OuterRef('pk')) & Q(
-            #             start_date__lt=end) & Q(end_date__gt=start)
-            #     ))
-            # )
+
+            queryset = queryset.annotate(
+                is_available=~Exists(Reservation.objects.filter(
+                    Q(car=OuterRef('pk')) & Q(
+                        start_date__lt=end) & Q(end_date__gt=start)
+                ))
+            )
 
         return queryset
 
@@ -70,12 +70,16 @@ class ReservationDetailView(RetrieveUpdateDestroyAPIView):
         serializer.is_valid(raise_exception=True)
         end = serializer.validated_data.get('end_date')
         car = serializer.validated_data.get('car')
+        start = instance.start_date
         today = timezone.now().date()
 
 
-        if Reservation.objects.filter(car=car, end_date__gte=today).exists():
-            for res in Reservation.objects.filter(car=car):
-                if res.start_date < end < res.start_date:return Response({'message': 'Car is not available...'})
+        if Reservation.objects.filter(car=car).exists():
+            # a = Reservation.objects.filter(car=car, start_date__gte=today)
+            # print(len(a))
+            for res in Reservation.objects.filter(car=car, end_date__gte=today ):
+                 if start < res.start_date < end:
+                    return Response({'message': 'Car is not available...'})
 
         return super().update(request, *args, **kwargs)
 
