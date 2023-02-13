@@ -16,5 +16,3 @@ class UserAdminWithGroup(UserAdmin):
     list_display = UserAdmin.list_display + ('group_name',)
 
 
-admin.site.unregister(User)
-admin.site.register(User, UserAdminWithGroup)
