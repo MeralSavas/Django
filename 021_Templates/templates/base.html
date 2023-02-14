@@ -1,10 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     {% block link %}
     <link rel="stylesheet" href="{% static 'main.css' %}" />
     {% endblock link %}
@@ -12,8 +12,6 @@
     <title>{% block title %}students{% endblock title %}</title>
   </head>
   <body>
-    {% block body %}
-    <h1>This is base.html</h1>
-    {% endblock body %}
+    {% block body %} {% endblock body %}
   </body>
 </html>
