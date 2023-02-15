@@ -3,5 +3,29 @@
 {% block container %}
 
     {{todos}}
+    <table>
+        <thead>
+            <tr>
+                <td>title</td>
+                <td>descreption</td>
+                <td>priority</td>
+                <td>status</td>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for todo in todos %}
+
+            <tr>
+                <td>{{todo.title}}</td>
+                <td>{{todo.description}}</td>
+                <td>{{todo.get_priority_display}}</td>
+                <td>{{todo.get_status_display}}</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
 
 {% endblock container %}
