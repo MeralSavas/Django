@@ -9,10 +9,17 @@
             Nadia's Garden Pizza</a>
             
             <div class="collapse navbar-collapse" id="navbars-host">
-                <ul class="navbar-nav ms-auto">         
+                <ul class="navbar-nav ms-auto">       
+
                     <li class="nav-item"><a class="nav-link" href="#">Pizzas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'user_login' %}">Login</a></li>
+                    
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user_logout' %}">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user_login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                    {% endif %}
+
                 </ul>
             </div>
     </nav>
