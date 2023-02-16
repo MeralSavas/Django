@@ -8,6 +8,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            # form sayfasında kalmasın, save olduktan sonra başka yere yönlendirilsin;
             return redirect('home')
 
     context = {
