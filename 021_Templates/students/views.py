@@ -70,7 +70,7 @@ def student_update(request, id):
 
     if request.method == 'POST':
         form = StudentForm(request.POST, request.FILES, instance=student)
-
+    #instance eger studentte bir degisklik varsa 
         if form.is_valid():
             form.save()
             return redirect('student_list')
@@ -79,4 +79,12 @@ def student_update(request, id):
         'form': form
     }
     return render(request, 'students/student_update.html', context)
+
+def student_detail(request, id):
+    student = get_object_or_404(Student, id=id)
+    context = {
+        'student': student
+    }
+
+    return render(request, 'students/student_detail.html', context)
 
