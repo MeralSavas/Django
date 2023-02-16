@@ -11,7 +11,8 @@ def register(request):
         # form = UserCreationForm(request.POST)
         form = UserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             # form sayfasında kalmasın, save olduktan sonra başka yere yönlendirilsin;
             return redirect('home')
 
