@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from .models import Student
+from .forms import StudentForm
 
 
 
@@ -44,3 +45,21 @@ def student_list(request):
     }
 
     return render(request, 'students/student_list.html', context)
+
+def student_add(request):
+    form = StudentForm()
+    if request.method == 'POST':
+        # print('POST :', request.POST) img yi yakalamadi bos donderdi
+        # print('fıles :', request.FILES) img yi yakaladi enctype="multipart/form-data" ekle
+        form = StudentForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+
+    context = {
+        'form': form
+    }
+
+
+    return render(request, 'students/student_add.html', context)
