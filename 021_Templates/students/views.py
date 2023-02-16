@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
 from .models import Student
@@ -50,7 +50,7 @@ def student_add(request):
     form = StudentForm()
     if request.method == 'POST':
         # print('POST :', request.POST) img yi yakalamadi bos donderdi
-        # print('fıles :', request.FILES) img yi yakaladi enctype="multipart/form-data" ekle
+        # print('fıles :', request.FILES) img yi yakaladi  student_add e enctype="multipart/form-data" ekle
         form = StudentForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -63,3 +63,20 @@ def student_add(request):
 
 
     return render(request, 'students/student_add.html', context)
+
+def student_update(request, id):
+    student = get_object_or_404(Student, id=id)
+    form = StudentForm(instance=student)
+
+    if request.method == 'POST':
+        form = StudentForm(request.POST, request.FILES, instance=student)
+
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'students/student_update.html', context)
+
