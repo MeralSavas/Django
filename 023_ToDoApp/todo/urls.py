@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+
 ### function based
 # urlpatterns = [
 #     path('',todo_list,name='todo_list' ),
@@ -14,8 +15,5 @@ urlpatterns = [
     path('add/',TodoCreateView.as_view(),name='todo_add' ),
     path('update/<int:pk>',TodoUpdateView.as_view(),name='todo_update' ),
     path('delete/<int:pk>',TodoDeleteView.as_view(),name='todo_delete' ),
-    path('delete/<int:pk>', TodoDeleteView.as_view(), name="todo_delete"),
-
-    
 
 ]
