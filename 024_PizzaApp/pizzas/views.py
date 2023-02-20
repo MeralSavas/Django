@@ -13,3 +13,6 @@ def pizzas(request):
     }
 
     return render(request, 'pizzas/pizzas.html', context)
+
+def order_view(request, id):
+    return render(request, 'pizzas/order.html')
