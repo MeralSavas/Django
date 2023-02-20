@@ -60,3 +60,8 @@ def update_order_view(request, id):
     }
 
     return render(request, 'pizzas/update_order.html', context)
+
+def delete_order_view(request, id):
+    order = Order.objects.get(id=id)
+    order.delete()
+    return redirect('my_orders')
