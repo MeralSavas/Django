@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Pizza
+from .models import Pizza, Order
 from .forms import PizzaForm
 
 
@@ -22,6 +22,7 @@ def order_view(request, id):
     if request.method == 'POST':
         if form.is_valid():
             order = form.save(commit=False)
+            #order objesini olustur ama database kaydetme
             order.pizza = pizza
             order.user = request.user
             order.save()
@@ -33,3 +34,11 @@ def order_view(request, id):
         
     }
     return render(request, 'pizzas/order.html', context)
+
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user)
+    context = {
+        'orders': orders
+    }
+
+    return render(request, 'pizzas/my_orders.html', context)
