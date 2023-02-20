@@ -27,7 +27,7 @@
                     </p>
             
                     {% if user.is_authenticated %}
-                    <a href="#"><button class=" btn btn-warning ms-1">Order</button></a>
+                    <a href="{% url 'order' pizza.id %}"><button class=" btn btn-warning ms-1">Order</button></a>
                     {% endif %}
                 
                 </div>
