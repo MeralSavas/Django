@@ -14,10 +14,10 @@
                     <p class="card-title"><strong>Pizza:</strong> {{order.pizza}} 🍕  <strong>Size:</strong> {{order.size}} 🍕 <strong>X :</strong> {{order.quantity}} </p>              
                 </div>
             </div>
-            {% comment %} <div class="col-md-2 d-flex align-items-center rounded">
-                <a href="{% url 'update_orders' order.id %}"> <button class=" btn btn-warning me-2">Update</button></a>
-                <a href="{% url 'delete_orders' order.id %}"><button class=" btn btn-danger me-2">Delete</button></a>
-            </div>  {% endcomment %}
+            <div class="col-md-2 d-flex align-items-center rounded">
+                <a href="{% url 'update_orders' order.id %}"><button class=" btn btn-warning me-2">Update</button></a>
+                {% comment %} <a href="#"><button class=" btn btn-danger me-2">Delete</button></a> {% endcomment %}
+            </div> 
         </div>
     </div>
     {% endfor %}
