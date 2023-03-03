@@ -4,6 +4,33 @@ from .models import Post, Like, Comment, PostView
 import datetime
 
 
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    post = serializers.StringRelatedField()
+    post_id = serializers.IntegerField()
+    commentor = serializers.StringRelatedField()
+    commentor_id = serializers.IntegerField()
+    created_date = serializers.SerializerMethodField()
+
+
+    class Meta:
+        model = Comment
+        fields = (
+            'id', 
+            'post_id', 
+            'post', 
+            'title', 
+            'comment', 
+            'commentor',
+            'commentor_id', 
+            'created_date'
+        )
+
+    def get_created_date(self, obj):
+        return datetime.datetime.strftime(obj.created_date, '%d,%m,%Y')
+
+
 class PostSerializer(serializers.ModelSerializer):
 
     author = serializers.StringRelatedField()
@@ -12,6 +39,8 @@ class PostSerializer(serializers.ModelSerializer):
     created_date = serializers.SerializerMethodField()
     visit_count = serializers.SerializerMethodField()
     like_count = serializers.SerializerMethodField()
+
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
