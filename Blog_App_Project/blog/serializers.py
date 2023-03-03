@@ -31,6 +31,18 @@ class CommentSerializer(serializers.ModelSerializer):
         return datetime.datetime.strftime(obj.created_date, '%d,%m,%Y')
 
 
+class LikeSerializer(serializers.ModelSerializer):
+
+    post = serializers.StringRelatedField()
+    post_id = serializers.IntegerField()
+    liker = serializers.StringRelatedField()
+    liker_id = serializers.IntegerField()
+
+    class Meta:
+        model = Like
+        fields = ('id', 'post', 'post_id','liker', 'liker_id', 'is_liked')
+
+
 class PostSerializer(serializers.ModelSerializer):
 
     author = serializers.StringRelatedField()
