@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from .serializers import PostSerializer, CommentSerializer, LikeSerializer
 from .models import Post, Comment, Like
+from rest_framework.exceptions import NotFound
 
 
 class PostMVS(ModelViewSet):
@@ -11,6 +12,19 @@ class PostMVS(ModelViewSet):
 class CommentMVS(ModelViewSet):
     queryset = Comment.objects.all().select_related('post')
     serializer_class = CommentSerializer
+
+
+    def get_queryset(self):
+        post_id = self.kwargs.get('post_pk')
+        if post_id == None:
+            return self.queryset
+        else:
+            try:
+                post = Post.objects.get(id=post_id)
+            except Post.DoesNotExist:
+                raise NotFound("A post with this id does not exist")
+        return self.queryset.filter(post = post)
+
 
 class LikeMVS(ModelViewSet):
     queryset = Like.objects.all()
