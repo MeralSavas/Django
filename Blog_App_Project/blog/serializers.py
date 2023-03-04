@@ -36,7 +36,7 @@ class LikeSerializer(serializers.ModelSerializer):
     post = serializers.StringRelatedField()
     post_id = serializers.IntegerField(read_only=True)
     liker = serializers.StringRelatedField()
-    liker_id = serializers.IntegerField()
+    liker_id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Like
