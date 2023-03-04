@@ -46,8 +46,7 @@ class LikeSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
 
     author = serializers.StringRelatedField()
-    author_id = serializers.IntegerField()
-    image = serializers.StringRelatedField()
+    author_id = serializers.IntegerField(read_only=True)
     created_date = serializers.SerializerMethodField()
     visit_count = serializers.SerializerMethodField()
     like_count = serializers.SerializerMethodField()
@@ -65,7 +64,7 @@ class PostSerializer(serializers.ModelSerializer):
             'created_date',
             'author',
             'author_id',
-            'comments',
+            'comments', 
             'slug',
             'visit_count',
             'like_count',
