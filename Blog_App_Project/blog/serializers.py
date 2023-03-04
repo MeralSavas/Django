@@ -8,7 +8,7 @@ import datetime
 class CommentSerializer(serializers.ModelSerializer):
 
     post = serializers.StringRelatedField()
-    post_id = serializers.IntegerField()
+    post_id = serializers.IntegerField(read_only=True)
     commentor = serializers.StringRelatedField()
     commentor_id = serializers.IntegerField()
     created_date = serializers.SerializerMethodField()
@@ -34,7 +34,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class LikeSerializer(serializers.ModelSerializer):
 
     post = serializers.StringRelatedField()
-    post_id = serializers.IntegerField()
+    post_id = serializers.IntegerField(read_only=True)
     liker = serializers.StringRelatedField()
     liker_id = serializers.IntegerField()
 

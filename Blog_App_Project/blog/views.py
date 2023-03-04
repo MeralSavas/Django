@@ -4,6 +4,9 @@ from .serializers import PostSerializer, CommentSerializer, LikeSerializer
 from .models import Post, Comment, Like
 from rest_framework.exceptions import NotFound
 
+from rest_framework.exceptions import ValidationError
+
+
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -27,6 +30,23 @@ class PostMVS(ModelViewSet):
 class CommentMVS(ModelViewSet):
     queryset = Comment.objects.all().select_related('post')
     serializer_class = CommentSerializer
+
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        current_user = self.request.user
+        post_id = self.kwargs.get('post_pk')
+        comment = Comment.objects.filter(post_id=post_id, commentor_id=current_user.id)
+        if comment.exists():
+            raise ValidationError(f" {current_user} is commented before")
+        else:
+            post_id = self.kwargs.get('post_pk')
+            serializer.validated_data['commentor_id'] = current_user.id
+            serializer.validated_data['post_id'] = post_id
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
     def get_queryset(self):
