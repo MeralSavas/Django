@@ -67,5 +67,6 @@ class CustomTokenSerializer(TokenSerializer):
 
     user = UserTokenSerializer(read_only=True)
 
-    class Meta(TokenSerializer.Meta):
+    
+class Meta(TokenSerializer.Meta):
         fields = ('key', 'user')
